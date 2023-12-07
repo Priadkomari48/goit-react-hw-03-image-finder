@@ -1,43 +1,41 @@
-import React, {Component} from 'react';
-import { Icon } from '@iconify/react';
+import { Component } from 'react';
+import s from './Searchbar.module.css';
 
-export class Searchbar extends Component {
+export default class Searchbar extends Component {
   state = {
-      query: '',
-    };
-  
-  handleChange = (e) => {
-    this.setState({ query: e.target.value });
+    input: '',
   };
 
-  handleSubmit = (e) => {
+  search = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.query);
-    this.setState({ query: '' });
+    this.props.getInputValue(this.state.input);
+    this.setState({ input: '' });
+  };
+
+  handleChange = e => {
+    this.setState({ input: e.target.value });
   };
 
   render() {
     return (
-      <header className="Searchbar">
-        <form className="SearchForm " onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
-            <Icon icon="mdi:magnify" width="28" height="28" />
-            <span className="SearchForm-button-label">Search</span>
+      <header className={s.searchbar}>
+        <form className={s.form} onSubmit={this.search}>
+          <button type="submit" className={s.button}>
+            <span className={s.label}>Search</span>
           </button>
 
           <input
-            className="SearchForm-input"
+            name="input"
             type="text"
-            value={this.state.query}
-            onChange={this.handleChange}
             autoComplete="off"
+            onChange={this.handleChange}
+            value={this.state.input}
             autoFocus
             placeholder="Search images and photos"
+            className={s.input}
           />
         </form>
       </header>
     );
   }
 }
-
-

@@ -1,14 +1,18 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import s from './ImageGalleryItem.module.css';
 
-export const ImageGalleryItem = ({ image, onClick }) => {
-  const handleClick = () => {
-    onClick(image.largeImageURL);
-  };
-
+export default function ImageGalleryItem({ url, tags, onClick }) {
   return (
-    <li className="ImageGalleryItem" onClick={handleClick}>
-      <img className="ImageGalleryItem-image" src={image.webformatURL} alt="" loading="lazy" />
-    </li>
+    <>
+      <li className={s.item}>
+        <img src={url} alt={tags} onClick={() => onClick(url)} />
+      </li>
+    </>
   );
-};
+}
 
+ImageGalleryItem.propTypes = {
+  url: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};

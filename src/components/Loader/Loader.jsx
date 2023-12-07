@@ -1,10 +1,18 @@
-export const Loader = () => {
-    return (
-        <div className="Loader-overlay">
-            <div className="Loader">
-                 <div className="Section-left"></div>
-                <div className="Section-right"></div>
-            </div>
-        </div>
-        )
+import { Oval } from 'react-loader-spinner';
+import s from './Loader.module.css';
+
+export default function Loader() {
+  return (
+    <div className={s.loader}>
+      <Oval
+        ariaLabel="loading-indicator"
+        height={100}
+        width={100}
+        strokeWidth={5}
+        strokeWidthSecondary={1}
+        color="blue"
+        secondaryColor="white"
+      />
+    </div>
+  );
 }

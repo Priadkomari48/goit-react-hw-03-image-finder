@@ -1,30 +1,42 @@
-import React from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import s from './Modal.module.css';
 
-export class Modal extends React.Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
+export default class Modal extends Component {
+    static propTypes = {
+        url: PropTypes.string.isRequired,
+        onClose: PropTypes.func.isRequired,
+    };
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
+    state = {}
 
-  handleKeyDown = (e) => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
+    componentDidMount() {
+        window.addEventListener('keydown', this.clickEsc);
     }
-  };
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.clickEsc);
+    }
 
-  render() {
-    const { isOpen, image, onClose } = this.props;
-    return (
-      <div className={`Overlay ${isOpen ? 'visible' : ''}`} onClick={onClose}>
-        <div className="Modal" onClick={(e) => e.stopPropagation()}>
-          <img src={image} alt="" />
-        </div>
-      </div>
-    );
-  }
+    clickBackdrop = event => {
+        if (event.target === event.currentTarget) {
+            this.props.onClose();
+        }
+    }
+
+    clickEsc = event => {
+        if (event.code === 'Escape') {
+            this.props.onClose();
+        }
+    }
+
+
+    render() {
+        return (
+            <div className={s.overlay} onClick={this.clickBackdrop}>
+                <div className={s.modal}>
+                    <img src={this.props.url} alt="" />
+                </div>
+            </div>
+        )
+    }
 }
-
-
